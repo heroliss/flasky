@@ -1,9 +1,15 @@
 .profile-thumbnail {
     position: absolute;
 }
-.profile-header {
+.profile-header{
     min-height: 260px;
-    margin-left: 280px;
+    margin-left: 0px;
+}
+@media screen and (min-width: 768px){
+      .profile-header{
+        min-height: 260px;
+        margin-left: 280px;
+    }
 }
 div.post-tabs {
     margin-top: 16px;
@@ -75,7 +81,7 @@ div.comment-form {
 }
 div.pagination {
     width: 100%;
-    text-align: right;
+    text-align: center;
     padding: 0px;
     margin: 0px;
 }
@@ -104,4 +110,7 @@ div.flask-pagedown-preview h3 {
 }
 .table.followers tr {
     border-bottom: 1px solid #e0e0e0;
+}
+article p {
+    text-indent:2em
 }

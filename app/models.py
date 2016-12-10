@@ -28,14 +28,14 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': (Permission.FOLLOW |
+            '普通用户': (Permission.FOLLOW |
                      Permission.COMMENT |
                      Permission.WRITE_ARTICLES, True),
-            'Moderator': (Permission.FOLLOW |
+            '论坛版主': (Permission.FOLLOW |
                           Permission.COMMENT |
                           Permission.WRITE_ARTICLES |
                           Permission.MODERATE_COMMENTS, False),
-            'Administrator': (0xff, False)
+            '管理员': (0xff, False)
         }
         for r in roles:
             role = Role.query.filter_by(name=r).first()
@@ -285,10 +285,13 @@ class Post(db.Model):
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p']
+                        'h1', 'h2', 'h3', 'p','img','button','table','time','font']
+        allowed_attributes = ['src','style','color','href']
+        allowed_styles = ['color','font-weight']
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
+            tags=allowed_tags,attributes=allowed_attributes,styles=allowed_styles, strip=True,
+            protocols = ['http', 'https', 'mailto','ed2k','thunder']))
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 
